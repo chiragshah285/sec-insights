@@ -3,6 +3,7 @@ from app.schema import Document
 from app.db.session import SessionLocal
 from app.api import crud
 import asyncio
+import arxiv
 
 async def upsert_single_document(doc_url: str):
     """

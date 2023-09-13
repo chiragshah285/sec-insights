@@ -21,7 +21,7 @@ class Filing(BaseModel):
 
 def filing_exists(cik: str, filing_type: str, output_dir: str) -> bool:
     """Checks if a filing exists for a given cik and filing type."""
-    data_dir = Path(output_dir) / "sec-edgar-filings"
+    data_dir = Path(output_dir) # / "sec-edgar-filings"
     filing_dir = data_dir / cik / filing_type
     return filing_dir.exists()
 
@@ -115,7 +115,7 @@ def parse_ticker_symbol_from_full_submission_txt(
 
 
 def get_available_filings(output_dir: str) -> List[Filing]:
-    data_dir = Path(output_dir) / "sec-edgar-filings"
+    data_dir = Path(output_dir) # / "sec-edgar-filings"
     filings = []
     for cik_dir in data_dir.iterdir():
         for filing_type_dir in cik_dir.iterdir():

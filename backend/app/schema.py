@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, validator
 from enum import Enum
 from typing import List, Optional, Dict, Union, Any
 from uuid import UUID
-from datetime import datetime
+from datetime import datetime,date
 from llama_index.schema import BaseNode, NodeWithScore
 from llama_index.callbacks.schema import EventPayload
 from llama_index.query_engine.sub_question_query_engine import SubQuestionAnswerPair
@@ -124,7 +124,7 @@ class DocumentMetadataKeysEnum(str, Enum):
     Enum for the keys of the metadata map for a document
     """
 
-    SEC_DOCUMENT = "sec_document"
+    SEC_DOCUMENT = "arxiv_papers"
 
 
 class SecDocumentTypeEnum(str, Enum):
@@ -140,17 +140,14 @@ class SecDocumentMetadata(BaseModel):
     """
     Metadata for a document that is a sec document
     """
-
-    company_name: str
-    company_ticker: str
-    doc_type: SecDocumentTypeEnum
-    year: int
-    quarter: Optional[int]
-    accession_number: Optional[str]
-    cik: Optional[str]
-    period_of_report_date: Optional[datetime]
-    filed_as_of_date: Optional[datetime]
-    date_as_of_change: Optional[datetime]
+    authors: list
+    doi: Optional[str]
+    entry_id: Optional[str]
+    journal_ref: Optional[str]
+    pdf_url: Optional[str]
+    primary_category: Optional[str]
+    published: date
+    title: str
 
 
 DocumentMetadataMap = Dict[Union[DocumentMetadataKeysEnum, str], Any]

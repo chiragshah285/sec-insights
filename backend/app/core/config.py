@@ -50,10 +50,10 @@ class PreviewPrefixedSettings(BaseSettings):
     deployments, so they are not prefixed.
     """
 
-    OPENAI_API_KEY: str
-    AWS_KEY: str
-    AWS_SECRET: str
-    POLYGON_IO_API_KEY: str
+    OPENAI_API_KEY: str = "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"
+    AWS_KEY: str = "xxx"
+    AWS_SECRET: str = "xxx"
+    POLYGON_IO_API_KEY: str = "xxx"
 
     class Config(AppConfig):
         env_prefix = "PREVIEW_" if is_pull_request or is_preview_env else ""
@@ -66,13 +66,13 @@ class Settings(PreviewPrefixedSettings):
 
     PROJECT_NAME: str = "llama_app"
     API_PREFIX: str = "/api"
-    DATABASE_URL: str
+    DATABASE_URL: str = "postgresql://user:password@127.0.0.1:5432/llama_app_db"
     LOG_LEVEL: str = "DEBUG"
     IS_PULL_REQUEST: bool = False
     RENDER: bool = False
-    S3_BUCKET_NAME: str
-    S3_ASSET_BUCKET_NAME: str
-    CDN_BASE_URL: str
+    S3_BUCKET_NAME: str = "llama-app-backend-local"
+    S3_ASSET_BUCKET_NAME: str = "llama-app-web-assets-local"
+    CDN_BASE_URL: str = "http://llama-app-web-assets-local.s3-website.localhost.localstack.cloud:4566"
     VECTOR_STORE_TABLE_NAME: str = "pg_vector_store"
     SENTRY_DSN: Optional[str]
     RENDER_GIT_COMMIT: Optional[str]

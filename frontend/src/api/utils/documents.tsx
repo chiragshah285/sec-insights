@@ -18,13 +18,14 @@ export const fromBackendDocumentToFrontend = (
     const colorIndex = index < 10 ? index : 0;
     const payload = {
       id: backendDoc.id,
-      url: backendDoc.url,
-      ticker: backendDoc.metadata_map.sec_document.company_ticker,
-      fullName: backendDoc.metadata_map.sec_document.company_name,
-      year: String(backendDoc.metadata_map.sec_document.year),
-      docType: frontendDocType,
+      url: backendDoc.pdf_url,
+      domain: backendDoc.metadata_map.sec_document.primary_category,
+      title: backendDoc.metadata_map.sec_document.title,
+//       fullName: backendDoc.metadata_map.sec_document.company_name,
+//       year: String(backendDoc.metadata_map.sec_document.year),
+//       docType: frontendDocType,
       color: documentColors[colorIndex],
-      quarter: backendDoc.metadata_map.sec_document.quarter || "",
+ //     quarter: backendDoc.metadata_map.sec_document.quarter || "",
     } as SecDocument;
     frontendDocs.push(payload);
   });

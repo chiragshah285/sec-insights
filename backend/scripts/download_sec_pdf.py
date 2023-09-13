@@ -1,11 +1,13 @@
 from pathlib import Path
 from typing import List, Optional
-
-import pdfkit
+import ssl
+# import pdfkit
 from file_utils import filing_exists
 from fire import Fire
-from sec_edgar_downloader import Downloader
+# from sec_edgar_downloader import Downloader
 from tqdm.contrib.itertools import product
+import arxiv
+import os
 
 DEFAULT_OUTPUT_DIR = "data/"
 # You can lookup the CIK for a company here: https://www.sec.gov/edgar/searchedgar/companysearch
@@ -91,21 +93,29 @@ def main(
 ):
     print('Downloading filings to "{}"'.format(Path(output_dir).absolute()))
     print("File Types: {}".format(file_types))
-    for symbol, file_type in product(ciks, file_types):
-        try:
-            if filing_exists(symbol, file_type, output_dir):
-                print(f"- Filing for {symbol} {file_type} already exists, skipping")
-            else:
-                print(f"- Downloading filing for {symbol} {file_type}")
-                _download_filing(symbol, file_type, output_dir, amount, before, after)
-        except Exception as e:
-            print(
-                f"Error downloading filing for symbol={symbol} & file_type={file_type}: {e}"
-            )
-
-    if convert_to_pdf:
-        print("Converting html files to pdf files")
-        _convert_to_pdf(output_dir)
+    search = arxiv.Search(
+        query="quantum",
+        max_results=10,
+        sort_by=arxiv.SortCriterion.SubmittedDate
+    )
+    for result in search.results():
+        result.download_pdf(dirpath=Path(output_dir).absolute(), filename=result.title + '.pdf')
+    # search.download_pdf(dirpath=Path(output_dir).absolute(), filename="downloaded-paper.pdf")
+    # for symbol, file_type in product(ciks, file_types):
+    #     try:
+    #         if filing_exists(symbol, file_type, output_dir):
+    #             print(f"- Filing for {symbol} {file_type} already exists, skipping")
+    #         else:
+    #             print(f"- Downloading filing for {symbol} {file_type}")
+    #             _download_filing(symbol, file_type, output_dir, amount, before, after)
+    #     except Exception as e:
+    #         print(
+    #             f"Error downloading filing for symbol={symbol} & file_type={file_type}: {e}"
+    #         )
+    #
+    # if convert_to_pdf:
+    #     print("Converting html files to pdf files")
+    #     _convert_to_pdf(output_dir)
 
 
 if __name__ == "__main__":
